@@ -22,15 +22,15 @@ final class Handler
         AddressesReducer::class,
     ];
 
-    public function __construct(User $user)
+    public function  __construct(User $user)
     {
         $this->user = $user;
     }
 
     public function handle(ResponseInterface $response): User
     {
-        return array_reduce($this->reducers, function (User $user, Reducer $reducer) use ($response) {
-            return $reducer($user, $response->getBody());
+        return array_reduce($this->reducers, function (User $user, string $reducer) use ($response) {
+            return (new $reducer)($user, $response->getBody());
         }, $this->user);
     }
 }

@@ -6,7 +6,7 @@ namespace App;
 
 interface User
 {
-    public function fill(): array;
+    public function fill(array $attributes): array;
 
     public function toAttributes(): array;
 }
