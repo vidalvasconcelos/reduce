@@ -17,5 +17,5 @@ interface User
     /**
      * @return array
      */
-    public function toAttributes(): array;
+    public function attributes(): array;
 }
