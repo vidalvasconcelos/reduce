@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Response;
 
-use App\Response\Reducers\AddressesReducer;
-use App\Response\Reducers\PhonesReducer;
-use App\Response\Reducers\Reducer;
+use App\Response\Reducers\AddressesUserReducer;
+use App\Response\Reducers\PhonesUserReducer;
 use App\User;
 use Psr\Http\Message\ResponseInterface;
 
@@ -17,20 +16,33 @@ final class Handler
      */
     private $user;
 
+    /**
+     * Array with Reducers are be applied
+     *
+     * @var array
+     */
     private $reducers = [
-        PhonesReducer::class,
-        AddressesReducer::class,
+        PhonesUserReducer::class,
+        AddressesUserReducer::class,
     ];
 
+    /**
+     * Handler constructor.
+     *
+     * @param \App\User $user
+     */
     public function  __construct(User $user)
     {
         $this->user = $user;
     }
 
+    /**
+     * @param \Psr\Http\Message\ResponseInterface $response
+     *
+     * @return \App\User
+     */
     public function handle(ResponseInterface $response): User
     {
-        return array_reduce($this->reducers, function (User $user, string $reducer) use ($response) {
-            return (new $reducer)($user, $response->getBody());
-        }, $this->user);
+        return array_reduce($this->reducers, new Pipeline($response), $this->user);
     }
 }

@@ -6,7 +6,16 @@ namespace App;
 
 interface User
 {
-    public function fill(array $attributes): array;
+    /**
+     * @param string $field
+     * @param array  $attributes
+     *
+     * @return \App\User
+     */
+    public function embed(string $field, array $attributes): User;
 
+    /**
+     * @return array
+     */
     public function toAttributes(): array;
 }

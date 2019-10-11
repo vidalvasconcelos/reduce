@@ -10,7 +10,7 @@ use Psr\Http\Message\StreamInterface;
 
 final class ResponseFactory
 {
-    public static function buildFromArray(array $attributes): ResponseInterface
+    public static function buildFromFixture(string $fixture): ResponseInterface
     {
         $response = Mockery::mock(ResponseInterface::class);
         $stream = Mockery::mock(StreamInterface::class);
@@ -23,7 +23,7 @@ final class ResponseFactory
         $stream
             ->expects('getContents')
             ->once()
-            ->andReturns(json_encode($attributes, JSON_FORCE_OBJECT));
+            ->andReturns(file_get_contents($fixture));
 
         return $response;
     }
