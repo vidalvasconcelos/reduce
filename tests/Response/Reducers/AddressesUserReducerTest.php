@@ -20,7 +20,7 @@ class AddressesUserReducerTest extends TestCase
         $fakeUser   = new FakeUser();
         $reducer    = new AddressesUserReducer();
 
-        $commonAddress = [
+        $address = [
             'current'   => false,
             'street'    => 'rua jackson',
             'number'    => 254,
@@ -28,13 +28,52 @@ class AddressesUserReducerTest extends TestCase
             'city'      => 'Vancouver',
         ];
 
-        $fakeUser->embed('addresses', [$commonAddress]);
+        $fakeUser->embed('addresses', [$address]);
 
         $reducer->__invoke($fakeUser, [
-            'addresses' => [ $commonAddress + ['disabled'  => true]],
+            'addresses' => [ $address + ['disabled'  => true]],
         ]);
 
         $this->assertEmpty(
+            $fakeUser->attributes()[$reducer::FILTER_ATTRIBUTE]
+        );
+    }
+
+    /**
+     * @test    When user has not any address and response
+     *          contains a new address.
+     *
+     * @return  void
+     */
+    public function append_a_new_address_and_user_collection(): void
+    {
+        $fakeUser   = new FakeUser();
+        $reducer    = new AddressesUserReducer();
+
+        $address_one = [
+            'current'   => false,
+            'street'    => 'rua jackson',
+            'number'    => 254,
+            'zip_code'  => '23345-300',
+            'city'      => 'NJ',
+        ];
+
+        $address_two = [
+            'current'   => true,
+            'street'    => 'rua michel',
+            'number'    => 345,
+            'zip_code'  => '23345-300',
+            'city'      => 'NY',
+        ];
+
+        $fakeUser->embed('addresses', [$address_one]);
+
+        $reducer->__invoke($fakeUser, [
+            'addresses' => [$address_two],
+        ]);
+
+        $this->assertSame(
+            [$address_one, $address_two],
             $fakeUser->attributes()[$reducer::FILTER_ATTRIBUTE]
         );
     }

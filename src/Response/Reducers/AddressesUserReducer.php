@@ -21,10 +21,15 @@ final class AddressesUserReducer implements UserReducer
      */
     public function __invoke(User $user, array $attribute): User
     {
+        $address = array_merge(
+            $user->attributes()[self::FILTER_ATTRIBUTE],
+            $attribute[self::FILTER_ATTRIBUTE]
+        );
+
         return $user->embed(
             self::FILTER_ATTRIBUTE,
-            array_filter($attribute[self::FILTER_ATTRIBUTE], function ($address) {
-                return ! $address['disabled'];
+            array_filter($address, function ($address) {
+                return ! ($address['disabled'] ?? false);
             })
         );
     }
