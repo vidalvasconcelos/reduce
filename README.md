@@ -1,2 +1,3 @@
-# reducer-real-world
-A simple example using invokable and reducers.
+# Reducers
+This repository tries to apply reducers to approach a real-world scenario like a Api Response Handler.
+
