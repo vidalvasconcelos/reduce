@@ -4,33 +4,27 @@ declare(strict_types=1);
 
 namespace App\Response\Reducers;
 
+use App\AddressesBag;
+use App\Response\Validators\AddressValidator;
 use App\User;
 
 final class AddressesUserReducer implements UserReducer
 {
     /**
-     * This string filtering the specific part
-     * of attributes that be extracted.
-     *
-     * @const string
-     */
-    public const FILTER_ATTRIBUTE = 'addresses';
-
-    /**
      * {@inheritDoc}
      */
     public function __invoke(User $user, array $attribute): User
     {
-        $address = array_merge(
-            $user->attributes()[self::FILTER_ATTRIBUTE],
-            $attribute[self::FILTER_ATTRIBUTE]
-        );
+        $addresses = $attribute[AddressesBag::ADDRESSES_FIELD] ?? [];
+
+        $addresses = array_reduce($addresses, function (array $addresses, array $current) {
+            $addresses[$current['id']] = $current;
+            return $addresses;
+        }, $user->getAddresses());
 
         return $user->embed(
-            self::FILTER_ATTRIBUTE,
-            array_filter($address, function ($address) {
-                return ! ($address['disabled'] ?? false);
-            })
+            AddressesBag::ADDRESSES_FIELD,
+            array_filter($addresses, new AddressValidator())
         );
     }
 }

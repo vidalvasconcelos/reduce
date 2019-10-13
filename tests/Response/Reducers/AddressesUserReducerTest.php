@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Response\Reducers;
 
+use App\AddressesBag;
 use App\Response\Reducers\AddressesUserReducer;
 use Faker\Provider\Uuid;
 use PHPUnit\Framework\TestCase;
@@ -21,29 +24,34 @@ class AddressesUserReducerTest extends TestCase
         $fakeUser   = new FakeUser();
         $reducer    = new AddressesUserReducer();
 
+        $addressId = Uuid::uuid();
+
         $address = [
-            'id'        => Uuid::uuid(),
+            'id'        => $addressId,
             'current'   => false,
             'street'    => 'rua jackson',
             'number'    => 254,
             'zip_code'  => '23345-300',
             'city'      => 'Vancouver',
+            'disabled'  => false,
         ];
 
-        $fakeUser->embed('addresses', [$address]);
-
-        $reducer->__invoke($fakeUser, [
-            'addresses' => [ $address + ['disabled'  => true]],
+        $fakeUser->embed(AddressesBag::ADDRESSES_FIELD, [
+            $addressId => $address
         ]);
 
-        $this->assertEmpty(
-            $fakeUser->attributes()[$reducer::FILTER_ATTRIBUTE]
-        );
+        $reducer->__invoke($fakeUser, [
+            'addresses' => [
+                $addressId =>  ['disabled' => true] + $address
+            ],
+        ]);
+
+        $this->assertEmpty($fakeUser->getAddresses());
     }
 
     /**
-     * @test    When user has not any address and response
-     *          contains a new address.
+     * @test    Append a new addresses on user
+     *          addresses bag.
      *
      * @return  void
      */
@@ -52,33 +60,44 @@ class AddressesUserReducerTest extends TestCase
         $fakeUser   = new FakeUser();
         $reducer    = new AddressesUserReducer();
 
+        $address_one_id = Uuid::uuid();
         $address_one = [
-            'id'        => Uuid::uuid(),
+            'id'        => $address_one_id,
             'current'   => false,
             'street'    => 'rua jackson',
             'number'    => 254,
             'zip_code'  => '23345-300',
             'city'      => 'NJ',
+            'disabled'  => false,
         ];
 
+        $address_two_id = Uuid::uuid();
         $address_two = [
-            'id'        => Uuid::uuid(),
+            'id'        => $address_two_id,
             'current'   => true,
             'street'    => 'rua michel',
             'number'    => 345,
             'zip_code'  => '23345-300',
             'city'      => 'NY',
+            'disabled'  => false,
         ];
 
-        $fakeUser->embed('addresses', [$address_one]);
+        $fakeUser->embed('addresses', [
+            $address_one_id => $address_one,
+        ]);
 
         $reducer->__invoke($fakeUser, [
-            'addresses' => [$address_two],
+            AddressesBag::ADDRESSES_FIELD => [
+                $address_two_id => $address_two,
+            ],
         ]);
 
         $this->assertSame(
-            [$address_one, $address_two],
-            $fakeUser->attributes()[$reducer::FILTER_ATTRIBUTE]
+            [
+                $address_one_id => $address_one,
+                $address_two_id => $address_two,
+            ],
+            $fakeUser->getAddresses()
         );
     }
 
@@ -102,6 +121,7 @@ class AddressesUserReducerTest extends TestCase
             'number'    => 254,
             'zip_code'  => '23345-300',
             'city'      => 'NJ',
+            'disabled'  => false,
         ];
 
         $address_updated = [
@@ -111,21 +131,20 @@ class AddressesUserReducerTest extends TestCase
             'number'    => 300,
             'zip_code'  => '23345-300',
             'city'      => 'NJ',
+            'disabled'  => false,
         ];
 
-        $fakeUser->embed('addresses', [$address_outdated]);
+        $fakeUser->embed('addresses', [
+            $commonUuid => $address_outdated
+        ]);
 
         $reducer->__invoke($fakeUser, [
             'addresses' => [$address_updated],
         ]);
 
-        $userAddresses = $fakeUser->attributes()[
-            $reducer::FILTER_ATTRIBUTE
-        ];
-
         $this->assertSame(
-            [$address_updated],
-            [$userAddresses]
+            [$commonUuid => $address_updated],
+            $fakeUser->getAddresses()
         );
     }
 }

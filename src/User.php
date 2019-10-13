@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App;
 
-interface User
+interface User extends AddressesBag, PhonesBag
 {
     /**
      * @param string $field

@@ -33,4 +33,12 @@ final class FakeUser implements User
     {
         return $this->attributes;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getAddresses(): array
+    {
+        return $this->attributes[self::ADDRESSES_FIELD];
+    }
 }
