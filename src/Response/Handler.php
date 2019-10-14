@@ -43,6 +43,6 @@ final class Handler
      */
     public function handle(ResponseInterface $response): User
     {
-        return array_reduce($this->reducers, new Process($response), $this->user);
+        return array_reduce($this->reducers, new Pipeline($response), $this->user);
     }
 }

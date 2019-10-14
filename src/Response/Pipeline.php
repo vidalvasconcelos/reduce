@@ -7,7 +7,7 @@ namespace App\Response;
 use App\User;
 use Psr\Http\Message\ResponseInterface;
 
-final class Process
+final class Pipeline
 {
     /**
      * @var string
