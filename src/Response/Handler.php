@@ -12,7 +12,7 @@ use Psr\Http\Message\ResponseInterface;
 final class Handler
 {
     /**
-     * @var \App\User
+     * @var User
      */
     private $user;
 
@@ -29,7 +29,7 @@ final class Handler
     /**
      * Handler constructor.
      *
-     * @param \App\User $user
+     * @param User $user
      */
     public function  __construct(User $user)
     {
@@ -37,12 +37,12 @@ final class Handler
     }
 
     /**
-     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param ResponseInterface $response
      *
-     * @return \App\User
+     * @return User
      */
     public function handle(ResponseInterface $response): User
     {
-        return array_reduce($this->reducers, new Pipeline($response), $this->user);
+        return array_reduce($this->reducers, new Process($response), $this->user);
     }
 }

@@ -7,7 +7,7 @@ namespace App\Response;
 use App\User;
 use Psr\Http\Message\ResponseInterface;
 
-final class Pipeline
+final class Process
 {
     /**
      * @var string
@@ -17,7 +17,7 @@ final class Pipeline
     /**
      * Pipeline constructor.
      *
-     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param ResponseInterface $response
      */
     public function __construct(ResponseInterface $response)
     {
@@ -25,10 +25,10 @@ final class Pipeline
     }
 
     /**
-     * @param \App\User $user
+     * @param User $user
      * @param string    $reducer
      *
-     * @return \App\User
+     * @return User
      */
     public function __invoke(User $user, string $reducer): User
     {
