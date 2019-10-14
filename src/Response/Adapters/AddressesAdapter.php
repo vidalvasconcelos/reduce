@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Response\Reducers;
+namespace App\Response\Adapters;
 
-final class AddressesAggregator
+final class AddressesAdapter
 {
     public function __invoke(array $addresses, array $current): array
     {

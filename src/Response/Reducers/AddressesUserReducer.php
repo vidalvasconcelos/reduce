@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Response\Reducers;
 
 use App\AddressesBag;
+use App\Response\Adapters\AddressesAdapter;
 use App\Response\Validators\AddressValidator;
 use App\User;
 
@@ -17,7 +18,7 @@ final class AddressesUserReducer implements UserReducer
     {
         $addresses = array_reduce(
             $this->getAddressesAttributes($attribute),
-            new AddressesAggregator(),
+            new AddressesAdapter(),
             $user->getAddresses()
         );
 
