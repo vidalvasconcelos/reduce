@@ -15,16 +15,24 @@ final class AddressesUserReducer implements UserReducer
      */
     public function __invoke(User $user, array $attribute): User
     {
-        $addresses = $attribute[AddressesBag::ADDRESSES_FIELD] ?? [];
-
-        $addresses = array_reduce($addresses, function (array $addresses, array $current) {
-            $addresses[$current['id']] = $current;
-            return $addresses;
-        }, $user->getAddresses());
+        $addresses = array_reduce(
+            $this->getAddressesAttributes($attribute),
+            new AddressesAggregator(),
+            $user->getAddresses()
+        );
 
         return $user->embed(
             AddressesBag::ADDRESSES_FIELD,
             array_filter($addresses, new AddressValidator())
         );
+    }
+
+    /**
+     * @param array $attribute
+     * @return array
+     */
+    private function getAddressesAttributes(array $attribute): array
+    {
+        return $attribute[AddressesBag::ADDRESSES_FIELD] ?? [];
     }
 }
