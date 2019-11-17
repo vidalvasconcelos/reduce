@@ -6,26 +6,25 @@ namespace App\Response\Adapters;
 
 use App\Response\Address;
 use App\Response\Transformers\AddressTransformer;
+use App\Response\Transformers\PhoneTransformer;
 use App\Response\Transformers\Transformer;
-use App\Response\Validators\Validator;
 use App\User;
 
-final class AddressesAdapter implements Adapter
+final class PhoneAdapter implements Adapter
 {
     /**
-     * @var \App\Response\Transformers\Transformer
+     * @var \App\Response\Transformers\PhoneTransformer
      */
     private $transformer;
 
     /**
-     * @var \App\Response\Validators\Validator
+     * PhoneAdapter constructor.
+     *
+     * @param \App\Response\Transformers\PhoneTransformer $transformer
      */
-    private $validator;
-
-    public function __construct(Transformer $transformer, Validator $validator)
+    public function __construct(PhoneTransformer $transformer)
     {
         $this->transformer = $transformer;
-        $this->validator = $validator;
     }
 
     /**
@@ -36,9 +35,9 @@ final class AddressesAdapter implements Adapter
      */
     public function __invoke(array $data, array $current): array
     {
-        if (($this->validator)($current)) {
-            $data[Address::ID] = ($this->transformer)($current);
-        }
+        $transform = new PhoneTransformer();
+
+        $data[Address::ID] = $transform($current);
 
         return $data;
     }

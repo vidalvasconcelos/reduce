@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Response\Reducers;
 
 use App\AddressesBag;
-use App\Response\Reducers\AddressesUserReducer;
+use App\Response\Reducers\AddressesReducer;
 use Faker\Provider\Uuid;
 use PHPUnit\Framework\TestCase;
 use Tests\Response\Stubs\FakeUser;
@@ -19,10 +19,10 @@ class AddressesUserReducerTest extends TestCase
      *
      * @return  void
      */
-    public function remove_address_when_is_disabled_on_response(): void
+    public function removeAddressWhenIsDisabledOnResponse(): void
     {
         $fakeUser   = new FakeUser();
-        $reducer    = new AddressesUserReducer();
+        $reducer    = new AddressesReducer();
 
         $addressId = Uuid::uuid();
 
@@ -32,20 +32,22 @@ class AddressesUserReducerTest extends TestCase
             'number'    => 254,
             'zip_code'  => '23345-300',
             'city'      => 'Vancouver',
-            'disabled'  => false,
         ];
 
-        $fakeUser->embed(AddressesBag::ADDRESSES_FIELD, [
+        $fakeUser->embed(AddressesBag::ADDRESS_BAG, [
             $addressId => $address
         ]);
 
-        $reducer->__invoke($fakeUser, [
-            'addresses' => [
-                 ['id' => $addressId, 'disabled' => true] + $address
+        $user = $reducer->__invoke($fakeUser, [
+            AddressesBag::ADDRESS_BAG => [
+                $address + [
+                    'id' => $addressId,
+                    'disabled' => true,
+                ],
             ],
         ]);
 
-        $this->assertEmpty($fakeUser->getAddresses());
+        $this->assertEmpty($user->getAddresses());
     }
 
     /**
@@ -54,10 +56,10 @@ class AddressesUserReducerTest extends TestCase
      *
      * @return  void
      */
-    public function append_a_new_address_and_user_collection(): void
+    public function appendNewAddressesOnUserCollection(): void
     {
         $fakeUser   = new FakeUser();
-        $reducer    = new AddressesUserReducer();
+        $reducer    = new AddressesReducer();
 
         $addressId = Uuid::uuid();
 
@@ -67,17 +69,18 @@ class AddressesUserReducerTest extends TestCase
             'number'    => 254,
             'zip_code'  => '23345-300',
             'city'      => 'NJ',
-            'disabled'  => false,
-        ];
-
-        $response = [
-            AddressesBag::ADDRESSES_FIELD => [
-                ['id' => $addressId] + $address,
-            ],
         ];
 
         $fakeUser->embed('addresses', []);
-        $reducer->__invoke($fakeUser, $response);
+
+        $reducer->__invoke($fakeUser, [
+            AddressesBag::ADDRESS_BAG => [
+                $address + [
+                    'id'        => $addressId,
+                    'disabled'  => false,
+                ],
+            ],
+        ]);
 
         $this->assertSame(
             [
@@ -93,10 +96,10 @@ class AddressesUserReducerTest extends TestCase
      *
      * @return  void
      */
-    public function update_an_existing_user_address_collection(): void
+    public function updateAnExistingUserAddressCollection(): void
     {
         $fakeUser   = new FakeUser();
-        $reducer    = new AddressesUserReducer();
+        $reducer    = new AddressesReducer();
 
         $commonUuid = Uuid::uuid();
 
@@ -106,7 +109,6 @@ class AddressesUserReducerTest extends TestCase
             'number'    => 254,
             'zip_code'  => '23345-300',
             'city'      => 'NJ',
-            'disabled'  => false,
         ];
 
         $address_updated = [
@@ -115,7 +117,6 @@ class AddressesUserReducerTest extends TestCase
             'number'    => 300,
             'zip_code'  => '23345-300',
             'city'      => 'NJ',
-            'disabled'  => false,
         ];
 
         $fakeUser->embed('addresses', [
@@ -124,7 +125,10 @@ class AddressesUserReducerTest extends TestCase
 
         $reducer->__invoke($fakeUser, [
             'addresses' => [
-                ['id' => $commonUuid] + $address_updated,
+                $address_updated + [
+                    'id'        => $commonUuid,
+                    'disabled'  => false,
+                ],
             ],
         ]);
 

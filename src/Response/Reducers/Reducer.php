@@ -6,7 +6,7 @@ namespace App\Response\Reducers;
 
 use App\User;
 
-interface UserReducer
+interface Reducer
 {
     /**
      * @param \App\User $user

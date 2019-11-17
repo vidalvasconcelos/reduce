@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Response;
 
-use App\Response\Reducers\AddressesUserReducer;
-use App\Response\Reducers\PhonesUserReducer;
+use App\Response\Reducers\AddressesReducer;
+use App\Response\Reducers\PhonesReducer;
 use App\User;
 use Psr\Http\Message\ResponseInterface;
 
@@ -22,8 +22,8 @@ final class Handler
      * @var array
      */
     private $reducers = [
-        PhonesUserReducer::class,
-        AddressesUserReducer::class,
+        PhonesReducer::class,
+        AddressesReducer::class,
     ];
 
     /**

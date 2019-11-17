@@ -39,7 +39,7 @@ final class FakeUser implements User
      */
     public function getAddresses(): array
     {
-        return $this->attributes[self::ADDRESSES_FIELD];
+        return $this->attributes[self::ADDRESS_BAG];
     }
 
     /**
@@ -47,6 +47,6 @@ final class FakeUser implements User
      */
     public function getPhones(): array
     {
-        return $this->attributes[self::PHONES_FIELD];
+        return $this->attributes[self::PHONE_BAG];
     }
 }
