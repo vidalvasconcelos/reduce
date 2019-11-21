@@ -14,10 +14,6 @@ final class AddressValidator implements Validator
             return false;
         }
 
-        if ($attribute[Address::DISABLED]) {
-            return false;
-        }
-
         if (! ($attribute[Address::ZIP_CODE] ?? false)) {
             return false;
         }

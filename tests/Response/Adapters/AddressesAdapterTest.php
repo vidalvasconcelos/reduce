@@ -4,18 +4,21 @@ namespace App\Response\Adapters;
 
 use App\Response\Transformers\Transformer;
 use App\Response\Validators\Validator;
-use Faker\Provider\Uuid;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Tests\Response\DataProviders\AddressDataProvider;
 
 final class AddressesAdapterTest extends TestCase
 {
+    use AddressDataProvider;
+
     /**
-     * @var \App\Response\Transformers\Transformer|\PHPUnit\Framework\MockObject\MockObject
+     * @var MockObject|Transformer
      */
     private $transformer;
 
     /**
-     * @var \App\Response\Validators\Validator|\PHPUnit\Framework\MockObject\MockObject
+     * @var MockObject|Validator
      */
     private $validator;
 
@@ -39,42 +42,33 @@ final class AddressesAdapterTest extends TestCase
     }
 
     /**
-     * @test    When addresses is passed to function
-     *          when id field should be removed from
-     *          content.
+     * @dataProvider    disabledAddresses
+     * @test            When addresses is passed to function
+     *                  when id field should be removed from
+     *                  content.
      *
-     * @return void
+     * @param   array   $address
+     * @return  void
      */
-    public function removeAddressWhenAddressHaveDisabled(): void
+    public function removeAddressWhenAddressHaveDisabled(array $address): void
     {
-        $address = [
-            'current'   => false,
-            'street'    => 'rua jackson',
-            'number'    => 254,
-            'zip_code'  => '23345-300',
-            'city'      => '0001',
-        ];
-
-        $this->validator
-            ->expects($this->any())
+        $this
+            ->validator
             ->method('__invoke')
             ->with($address)
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
-        $this->transformer
-            ->expects($this->any())
+        $this
+            ->transformer
             ->method('__invoke')
             ->with($address)
-            ->will($this->returnValue([]));
+            ->willReturn([]);
 
         $addresses = $this->addressesAdapter->__invoke(
             [],
             $address
         );
 
-        $this->assertSame(
-            [$address['id'] => $address],
-            $addresses
-        );
+        $this->assertSame([$address], $addresses);
     }
 }

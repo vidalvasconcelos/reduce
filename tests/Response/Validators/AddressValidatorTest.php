@@ -74,7 +74,7 @@ class AddressValidatorTest extends TestCase
         self::assertFalse(
             $this->addressValidator->__invoke([
                 'current'   => false,
-                'disabled'  => true,
+                'disabled'  => false,
                 'street'    => 'rua jackson',
                 'number'    => 254,
                 'zip_code'  => $zipCode,

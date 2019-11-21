@@ -13,12 +13,12 @@ use App\User;
 final class AddressesAdapter implements Adapter
 {
     /**
-     * @var \App\Response\Transformers\Transformer
+     * @var callable
      */
     private $transformer;
 
     /**
-     * @var \App\Response\Validators\Validator
+     * @var callable
      */
     private $validator;
 
@@ -37,7 +37,7 @@ final class AddressesAdapter implements Adapter
     public function __invoke(array $data, array $current): array
     {
         if (($this->validator)($current)) {
-            $data[Address::ID] = ($this->transformer)($current);
+            array_replace_recursive($data, ($this->transformer)($current));
         }
 
         return $data;
