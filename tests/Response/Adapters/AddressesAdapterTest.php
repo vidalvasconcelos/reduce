@@ -22,10 +22,7 @@ final class AddressesAdapterTest extends TestCase
      */
     private $validator;
 
-    /**
-     * @var \App\Response\Adapters\AddressesAdapter
-     */
-    private $addressesAdapter;
+    private Adapter $addressesAdapter;
 
     /**
      * {@inheritDoc}

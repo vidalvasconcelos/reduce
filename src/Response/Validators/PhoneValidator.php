@@ -8,11 +8,6 @@ use App\Response\Phone;
 
 final class PhoneValidator implements Validator
 {
-    /**
-     * @param array $attribute
-     *
-     * @return bool
-     */
     public function __invoke(array $attribute): bool
     {
         if (! ($attribute[Phone::ACTIVE] ?? false)) {

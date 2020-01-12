@@ -8,11 +8,5 @@ use App\User;
 
 interface Reducer
 {
-    /**
-     * @param \App\User $user
-     * @param array     $attribute
-     *
-     * @return \App\User
-     */
     public function __invoke(User $user, array $attribute): User;
 }
