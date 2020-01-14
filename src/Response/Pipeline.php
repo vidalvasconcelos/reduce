@@ -4,45 +4,24 @@ declare(strict_types=1);
 
 namespace App\Response;
 
+use App\Response\Reducers\Reducer;
 use App\User;
 use Psr\Http\Message\ResponseInterface;
 
 final class Pipeline
 {
-    /**
-     * @var string
-     */
-    private $response;
+    private ResponseInterface $response;
 
-    /**
-     * Pipeline constructor.
-     *
-     * @param ResponseInterface $response
-     */
     public function __construct(ResponseInterface $response)
     {
         $this->response = $response;
     }
 
-    /**
-     * @param User $user
-     * @param string    $reducer
-     *
-     * @return User
-     */
-    public function __invoke(User $user, string $reducer): User
+    public function __invoke(User $user, Reducer $reducer): User
     {
-        return (new $reducer)(
+        return $reducer(
             $user,
-            json_decode($this->getResponseContents(), true)
+            json_decode($this->response->getBody()->getContents(), true)
         );
-    }
-
-    /**
-     * @return string
-     */
-    private function getResponseContents(): string
-    {
-        return $this->response->getBody()->getContents();
     }
 }

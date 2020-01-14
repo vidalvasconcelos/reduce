@@ -3,7 +3,7 @@
 namespace App\Response\Adapters;
 
 use App\Response\Transformers\Transformer;
-use App\Response\Validators\Validator;
+use App\Validation\Validator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Tests\Response\DataProviders\AddressDataProvider;
