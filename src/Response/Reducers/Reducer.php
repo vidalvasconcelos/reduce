@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Response\Reducers;
 
-use App\User;
+use App\Domain\User;
 
 interface Reducer
 {
-    public function __invoke(User $user, array $attribute): User;
+    public function __invoke(User $user, array $attributes): User;
 }

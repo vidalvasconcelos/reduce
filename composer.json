@@ -26,7 +26,9 @@
     },
     "require-dev": {
         "ext-xdebug": "^2.9.0",
-        "phpunit/phpunit": "^8.3"
+        "roave/security-advisories": "dev-master",
+        "phpunit/phpunit": "^8.3",
+        "vimeo/psalm": ">=3.9.5"
     },
     "scripts": {
         "test": "vendor/bin/phpunit ./tests"

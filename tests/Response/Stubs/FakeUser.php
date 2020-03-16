@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Response\Stubs;
 
-use App\User;
+use App\Domain\User;
 
 final class FakeUser implements User
 {
