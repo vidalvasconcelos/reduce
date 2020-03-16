@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Tests\Domain;
+namespace Tests\Domain\Addresses\ZipCodes;
 
 use Iterator;
 

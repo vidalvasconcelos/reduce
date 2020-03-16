@@ -32,6 +32,11 @@ final class Phone
         $this->number = $number;
     }
 
+    public function value(): string
+    {
+        return $this->number;
+    }
+
     public static function fromArray(array $attribute): self
     {
         return new static(
@@ -41,8 +46,4 @@ final class Phone
         );
     }
 
-    public function value(): string
-    {
-        return $this->number;
-    }
 }

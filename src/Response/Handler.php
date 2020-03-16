@@ -12,7 +12,10 @@ final class Handler
 {
     private array $reducers;
 
-    public function  __construct(array $reducers)
+    /**
+     * @param array <\App\Response\Reducers\Reducer> $reducers
+     */
+    public function __construct(array $reducers)
     {
         $this->reducers = $reducers;
     }

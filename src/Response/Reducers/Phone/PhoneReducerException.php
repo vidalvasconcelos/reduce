@@ -10,6 +10,8 @@ final class PhoneReducerException extends InvalidArgumentException
 {
     public static function isRequired(): self
     {
-        return new static('"phones" is a required field.');
+        return new static(
+            '"phones" is a required field.'
+        );
     }
 }

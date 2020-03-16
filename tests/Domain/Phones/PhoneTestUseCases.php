@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Domain;
+namespace Tests\Domain\Phones;
 
 use Iterator;
 

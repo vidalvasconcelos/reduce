@@ -1,0 +1,27 @@
+{
+  "version": "0.0.10",
+  "addresses":[
+    {
+      "street": "",
+      "number": "",
+      "zip_code": ""
+    },
+    {
+      "street": "",
+      "number": "",
+      "zip_code": ""
+    }
+  ],
+  "phones":[
+    {
+      "number": "",
+      "type": "",
+      "enabled": ""
+    },
+    {
+      "number": "",
+      "type": "",
+      "enabled": ""
+    }
+  ]
+}

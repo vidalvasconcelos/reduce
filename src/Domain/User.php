@@ -10,6 +10,4 @@ use App\Domain\Phones\PhoneBag;
 interface User extends AddressBag, PhoneBag
 {
     public function embed(string $field, array $attributes): User;
-
-    public function attributes(): array;
 }

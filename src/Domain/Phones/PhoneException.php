@@ -10,7 +10,9 @@ final class PhoneException extends InvalidArgumentException
 {
     public static function isDisabled(): self
     {
-        return new static('Only enabled phones was permitted.');
+        return new static(
+            'Only enabled phones was permitted.'
+        );
     }
 
     public static function invalidPattern(string $number): self

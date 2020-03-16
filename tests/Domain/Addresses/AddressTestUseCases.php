@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\DataProviders;
 
-use Faker\Provider\Uuid;
 use Iterator;
 
 trait AddressTestUseCases

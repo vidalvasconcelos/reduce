@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Domain;
+namespace Tests\Domain\Phones;
 
 use App\Domain\Phones\PhoneException;
 use App\Domain\Phones\Phone;
@@ -16,10 +16,14 @@ final class PhoneTest extends TestCase
      * @dataProvider invalidFormatNumbers
      * @param string $number
      */
-    public function test_disabled_number(string $number): void
+    public function test_invalid_format_number(string $number): void
     {
         $this->expectException(PhoneException::class);
 
-        new Phone($number, 'land_line', false);
+        Phone::fromArray([
+            'number' => $number,
+            'type' => 'land_line',
+            'enabled' => false,
+        ]);
     }
 }

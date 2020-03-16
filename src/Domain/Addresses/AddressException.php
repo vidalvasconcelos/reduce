@@ -8,11 +8,6 @@ use InvalidArgumentException;
 
 final class AddressException extends InvalidArgumentException
 {
-    public static function streetShouldBeString(): self
-    {
-        return new static('"street" field should be string.');
-    }
-
     public static function streetIsRequired(): self
     {
         return new static('Field street is required.');
