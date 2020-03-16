@@ -10,11 +10,15 @@ final class AddressException extends InvalidArgumentException
 {
     public static function streetIsRequired(): self
     {
-        return new static('Field street is required.');
+        return new static(
+            '"street" is required.'
+        );
     }
 
     public static function zipCodeMissing(): self
     {
-        return new static('Zip code was missing.');
+        return new static(
+            '"zip_code" ir required.'
+        );
     }
 }

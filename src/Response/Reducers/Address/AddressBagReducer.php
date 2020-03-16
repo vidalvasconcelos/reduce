@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace App\Response\Reducers\Address;
 
 use App\Domain\User;
-use App\Response\Reducers\Reducer;
 use App\Response\Schema;
 use function array_reduce;
 
-final class AddressBagReducer implements Reducer
+final class AddressBagReducer
 {
     public function __invoke(User $user, array $attributes): User
     {

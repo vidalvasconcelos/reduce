@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Response;
 
-use App\Response\Reducers\Reducer;
 use App\Domain\User;
 use Psr\Http\Message\ResponseInterface;
 
@@ -17,11 +16,16 @@ final class Pipeline
         $this->response = $response;
     }
 
-    public function __invoke(User $user, Reducer $reducer): User
+    public function __invoke(User $user, callable $reducer): User
     {
-        $content = $this->response->getBody()->getContents();
-        $attributes = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+        if (!$content = $this->response->getBody()->getContents()) {
+            throw PipelineException::contentMissing();
+        }
 
-        return $reducer($user, $attributes);
+        if (!$data = json_decode($content, true, 512, JSON_THROW_ON_ERROR)) {
+            throw PipelineException::contentUnprocessable();
+        }
+
+        return $reducer(clone $user, $data);
     }
 }

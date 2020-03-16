@@ -6,7 +6,6 @@ namespace Tests\Response;
 
 use App\Domain\User;
 use App\Response\Handler;
-use App\Response\Reducers\Reducer;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 use Tests\Domain\FakeUser;
@@ -49,6 +48,7 @@ final class HandlerTest extends TestCase
     public function test_should_remove_address_field(string $responseBody): void
     {
         $user = new FakeUser();
+        $addresses = ['a', 'b', 'c'];
         $response = new Response(
             200,
             ['Content-Type' => 'application/json'],
@@ -56,11 +56,8 @@ final class HandlerTest extends TestCase
         );
 
         $handler = new Handler([
-            new class implements Reducer {
-                public function __invoke(User $user, array $attributes): User
-                {
-                    return $user->embed('addresses', ['a', 'b', 'c']);
-                }
+            static function (User $user, array $attributes) use ($addresses): User {
+                return $user->embed('addresses', $addresses);
             },
         ]);
 

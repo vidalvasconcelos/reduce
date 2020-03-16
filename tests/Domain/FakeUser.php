@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Domain;
 
 use App\Domain\Addresses\Address;
+use App\Domain\Addresses\AddressBag;
 use App\Domain\Phones\Phone;
 use App\Domain\User;
 use App\Response\Schema;
@@ -12,6 +13,14 @@ use App\Response\Schema;
 final class FakeUser implements User, Schema
 {
     private array $collection = [];
+
+    /**
+     * {@inheritDoc}
+     */
+    public function clone(): User
+    {
+        return clone($this);
+    }
 
     /**
      * {@inheritDoc}

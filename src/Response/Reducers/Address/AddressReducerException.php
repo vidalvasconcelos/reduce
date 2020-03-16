@@ -10,6 +10,8 @@ final class AddressReducerException extends InvalidArgumentException
 {
     public static function isRequired(): self
     {
-        return new static('"addresses" is a required field.');
+        return new static(
+            '"addresses" is a required field.'
+        );
     }
 }

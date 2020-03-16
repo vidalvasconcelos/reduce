@@ -12,9 +12,6 @@ final class Handler
 {
     private array $reducers;
 
-    /**
-     * @param array <\App\Response\Reducers\Reducer> $reducers
-     */
     public function __construct(array $reducers)
     {
         $this->reducers = $reducers;
@@ -22,6 +19,6 @@ final class Handler
 
     public function handle(User $user, ResponseInterface $response): User
     {
-        return array_reduce($this->reducers, new Pipeline($response), $user);
+        return array_reduce($this->reducers, new Pipeline($response), clone $user);
     }
 }
