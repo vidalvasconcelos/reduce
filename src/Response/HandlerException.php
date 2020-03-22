@@ -6,19 +6,19 @@ namespace App\Response;
 
 use RuntimeException;
 
-final class PipelineException extends RuntimeException
+final class HandlerException extends RuntimeException
 {
     public static function contentMissing(): self
     {
         return new self(
-            'content is missing.'
+            'Content is missing.'
         );
     }
 
-    public static function contentUnprocessable(): self
+    public static function contentEmpty(): self
     {
         return new self(
-            'content is unprocessable.'
+            'Content is empty.'
         );
     }
 }

@@ -5,20 +5,28 @@ declare(strict_types=1);
 namespace App\Response;
 
 use App\Domain\User;
+use App\Response\Strategies\Strategy;
 use Psr\Http\Message\ResponseInterface;
-use function array_reduce;
 
 final class Handler
 {
-    private array $reducers;
+    private array $attributes;
 
-    public function __construct(array $reducers)
+    public function __construct(ResponseInterface $response)
     {
-        $this->reducers = $reducers;
+        if (!$content = $response->getBody()->getContents()) {
+            throw HandlerException::contentMissing();
+        }
+
+        if (!$attributes = json_decode($content, true, 512, JSON_THROW_ON_ERROR)) {
+            throw HandlerException::contentEmpty();
+        }
+
+        $this->attributes = $attributes;
     }
 
-    public function handle(User $user, ResponseInterface $response): User
+    public function __invoke(User $user, Strategy $strategy): User
     {
-        return array_reduce($this->reducers, new Pipeline($response), clone $user);
+        return $strategy($user, $this->attributes);
     }
 }

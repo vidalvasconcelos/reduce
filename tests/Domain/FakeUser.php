@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace Tests\Domain;
 
 use App\Domain\Addresses\Address;
-use App\Domain\Addresses\AddressBag;
 use App\Domain\Phones\Phone;
 use App\Domain\User;
-use App\Response\Schema;
+use App\Domain\Schema;
 
-final class FakeUser implements User, Schema
+final class FakeUser implements User
 {
     private array $collection = [];
 
@@ -37,7 +36,7 @@ final class FakeUser implements User, Schema
      */
     public function getAddresses(): array
     {
-        return $this->collection[self::ADDRESSES_BAG] ?? [];
+        return $this->collection[Schema::ADDRESSES_BAG] ?? [];
     }
 
     /**
@@ -45,7 +44,7 @@ final class FakeUser implements User, Schema
      */
     public function getPhones(): array
     {
-        return $this->collection[self::PHONES_BAG] ?? [];
+        return $this->collection[Schema::PHONES_BAG] ?? [];
     }
 
     /**
@@ -53,7 +52,7 @@ final class FakeUser implements User, Schema
      */
     public function setAddress(Address $address): User
     {
-        $this->collection[self::ADDRESSES_BAG][] = $address;
+        $this->collection[Schema::ADDRESSES_BAG][] = $address;
 
         return $this;
     }
@@ -63,7 +62,7 @@ final class FakeUser implements User, Schema
      */
     public function setPhone(Phone $phone): User
     {
-        $this->collection[self::PHONES_BAG][] = $phone;
+        $this->collection[Schema::PHONES_BAG][] = $phone;
 
         return $this;
     }

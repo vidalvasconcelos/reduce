@@ -13,10 +13,11 @@ final class ZipCodeTest extends TestCase
     use ZipCodeTestUseCases;
 
     /**
+     * @test
      * @dataProvider invalidZipCodeFormat
      * @param string $zipCode
      */
-    public function test_invalid_zip_code_exception(string $zipCode): void
+    public function expect_invalid_zip_code_exception(string $zipCode): void
     {
         $this->expectException(ZipCodeException::class);
 
@@ -24,10 +25,11 @@ final class ZipCodeTest extends TestCase
     }
 
     /**
+     * @test
      * @dataProvider validZipCodeFormat
      * @param string $zipCode
      */
-    public function test_zip_code_value_assertion(string $zipCode): void
+    public function assert_zip_code_value(string $zipCode): void
     {
         $entity = new ZipCode($zipCode);
 

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Domain\Phones;
 
-use App\Domain\Phones\PhoneException;
 use function preg_match;
 
 final class Phone

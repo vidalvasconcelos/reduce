@@ -19,20 +19,33 @@ final class Address
         $this->zipCode = $zipCode;
     }
 
+    private function hash(): string
+    {
+        return md5(sprintf(
+            '%s.%s.%s',
+            $this->street, $this->number, $this->zipCode->value()
+        ));
+    }
+
+    public function isSame(Address $address): bool
+    {
+        return $this->hash() === $address->hash();
+    }
+
     public static function fromArray(array $attribute): self
     {
-        if (array_key_exists('zip_code', $attribute)) {
-            throw AddressException::zipCodeMissing();
+        if (!isset($attribute['street'])) {
+            throw AddressException::requiredFieldNotPassed('street');
         }
 
-        if (array_key_exists('street', $attribute)) {
-            throw AddressException::streetIsRequired();
+        if (!isset($attribute['zip_code'])) {
+            throw AddressException::requiredFieldNotPassed('zip_code');
         }
 
         return new self(
-            $attribute['street'] ?? '',
-            $attribute['number'] ?? null,
-            $attribute['zip_code'],
+            $attribute['street'],
+            $attribute['number'] ??= null,
+            new ZipCode($attribute['zip_code']),
         );
     }
 }

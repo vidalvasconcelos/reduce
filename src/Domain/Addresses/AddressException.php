@@ -6,19 +6,13 @@ namespace App\Domain\Addresses;
 
 use InvalidArgumentException;
 
-final class AddressException extends InvalidArgumentException
+class AddressException extends InvalidArgumentException
 {
-    public static function streetIsRequired(): self
+    public static function requiredFieldNotPassed(string $field): self
     {
-        return new static(
-            '"street" is required.'
-        );
-    }
-
-    public static function zipCodeMissing(): self
-    {
-        return new static(
-            '"zip_code" ir required.'
-        );
+        return new static(sprintf(
+            '"%s" is required.',
+            $field
+        ));
     }
 }
