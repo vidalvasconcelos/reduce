@@ -1,7 +1,6 @@
 {
     "name": "vidalvasconcelos/reducers",
     "type": "metapackage",
-    "version": "dev-master",
     "keywords": ["array_reduce", "__invoke", "callable", "psr7", "strategy"],
     "description": "Using invoke class for extract complex closures.",
     "homepage": "https://github.com/vidalvasconcelos/reducers",
