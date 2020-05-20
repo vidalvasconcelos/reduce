@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Response\Reducers;
 
-use App\Domain\User;
+use App\Response\User;
 use PHPUnit\Framework\TestCase;
-use Tests\Domain\FakeUser;
+use Tests\Response\FakeUser;
 use Tests\Response\Strategies\StrategyTest;
 
 class AddressesTest extends TestCase implements StrategyTest

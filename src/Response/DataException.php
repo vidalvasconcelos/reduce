@@ -6,7 +6,7 @@ namespace App\Response;
 
 use RuntimeException;
 
-final class HandlerException extends RuntimeException
+final class DataException extends RuntimeException
 {
     public static function contentMissing(): self
     {

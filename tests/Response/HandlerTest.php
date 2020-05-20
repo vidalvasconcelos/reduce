@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Response;
 
-use App\Domain\User;
+use App\Response\User;
 use App\Response\StrategyHandler;
-use App\Response\Strategies\Strategy;
+use App\Response\Strategy;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
-use Tests\Domain\FakeUser;
+use Tests\Response\FakeUser;
 
 final class HandlerTest extends TestCase
 {

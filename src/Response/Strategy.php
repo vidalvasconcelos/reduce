@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Response\Strategies;
-
-use App\Domain\User;
+namespace App\Response;
 
 interface Strategy
 {
